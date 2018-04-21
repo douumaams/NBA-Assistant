@@ -1,0 +1,39 @@
+algorithm
+application
+beta test
+binary
+bit
+bitmap
+boolean
+browser
+bug
+buffer
+cache
+byte
+CPU
+code
+cookie
+database
+data mining
+desktop
+directory
+disk
+download
+encryption
+file
+firewall
+firmware
+format
+gigabyte
+html
+c
+c++
+java
+python
+megabyte
+network
+operating system
+pixel
+ram
+software
+wifi

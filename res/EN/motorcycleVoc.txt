@@ -1,0 +1,50 @@
+back tire
+brake lever
+brake pedal
+brake
+chain
+clutch
+clutch lever
+disk brake
+drum brake
+engine
+fender
+front tire
+tire
+gas tank
+gear
+gear shift
+handlebar
+headlight
+inner tube
+muffler
+rearview mirror
+seat
+speedometer
+tail light
+turn signal
+shock absorber
+drive
+number plate
+license plate
+trunk
+stop light
+exhaust
+pipe
+airbag
+steer
+steering wheel
+manual transmission
+motor
+fuel
+car
+bike
+motorcycle
+belt
+driver
+taxi
+mercedes
+audi
+peugeot
+bmw
+ferrari
