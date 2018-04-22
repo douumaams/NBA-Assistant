@@ -12,7 +12,8 @@ def chatbot():
     while 1:
         human = input("Me : ")
         analyse(human)
-        
+        # if(xxx(human) == 1):
+        #     print("La famille est trés importante")
 
 def read_inputs(fileName):
     inputs = []
@@ -24,12 +25,41 @@ def read_inputs(fileName):
             lword.clear()
             continue
         lword.append(line.strip("\n"))
+    inputs.append(lword[:])
     filepointer.close()
     return inputs
+
+
+def xxx(sentence):
+    familyVoc = []
+    filepointer = open("./../res/EN/familyVocabulary.txt", "r")
+    lword = sentence.split(" ")
+    for line in filepointer:
+        if(line.strip("\n") in familyVoc):
+            filepointer.close()
+            print(line.strip + ":" +familyVocabulary)
+            return 1
+        
+    filepointer.close()
+    return 0
+
+    #     familyVoc.append(line.strip("\n"))
+    # for word in lword:
+    #     if word in familyVoc:
+    #         return 1
+    # print(familyVoc)
+    # print(lword)
+    # return 0
+    # pickle, load, dump
+    # pour les petites données on peut utiliser json
+    
+    
+
 
 def analyse(sentence):
     outputs = read_inputs("./../res/EN/outputs.txt")
     inputs = read_inputs("./../res/EN/inputs.txt")
+    print(inputs)
     response = "Why "
     request = ""
     s = re.split(" ", sentence)
@@ -44,10 +74,11 @@ def analyse(sentence):
                     response += outputs[i][j]
                     break;
 
+
     # ... la suite de la phrase
     # print(request)
     # print(inputs)
-    print(response + " " + sentence.strip(request) + "?")
+    print("Bot: "+response + " " + sentence.strip(request) + "?")
 
 
 
