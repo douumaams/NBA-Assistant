@@ -1,0 +1,47 @@
+3PT: Three point field goal
+3PA: 3 pointers attempted
+3PM: 3 Pointers Made
+3P%: 3 Pointers Percentage
+AST: Assist
+APG: Assist Per Game
+BLK: Blocks
+BPG: Blocked Per Games
+C: Center
+CBA: Contenental Basketball Association
+CONF: Conference
+DIV: Division
+DNP: Did not play
+DRB: Defensive rebounds
+FG: Field Goal
+FG%: Field Goal Percentage
+FGA: Field Goal Attemped
+FGM: Field Goal Made
+FG%: Field goal percentage
+FT: Free Throw
+FT%: Free Throw Percentage
+FTM: Free Throw Made
+FTA: Free Throw Attemped
+FT-FTA: Free throws made-Total free throws attempted
+G: Games
+GB: Games back
+GP: Games played
+L: Lost
+L10: Last 10 games
+MIN: Minutes
+MPG: Minutes per game
+NBA: National Basketball Association
+NBDL: National Basketball Developmental League
+ORB: Offensive rebounds
+OT: Overtime
+PCT: Percent
+PF: Personal fouls
+PG: Point Guard
+PTS: Points
+PPG: Points Per Game
+REB: Total rebounds
+RPG: Rebounds per game
+SF: Small Forward
+SG: Shooting Guard
+SPG: Steals Per Games
+TOV: Turnover
+W: Won
