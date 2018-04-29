@@ -12,22 +12,25 @@ def chatbot():
         analyse(human, lans)
         if len(lans) > 2:
             lans = lans[len(lans)-1:]
+
         #print(lans)
+
 
 def analyse(sentence, lans):
     ans = discussion(sentence, lans)
     if ans == "":
-        ans = eliza(sentence)
+        ans = eliza(sentence,lans)
 
     lans.append(ans)
 
     print("Bot: " + ans)
 
 
-def eliza(sentence):
+def eliza(sentence, lans):
     outputs = read_inputs("./../res/EN/outputs.txt")
     #print(outputs)
     inputs = read_inputs("./../res/EN/inputs.txt")
+
     #print(inputs)
     response = "Why "
     request = ""
@@ -45,7 +48,13 @@ def eliza(sentence):
                     response += outputs[i][j]
                     break;
     if response == "Why ":
-        return "backchannel"
+        #return "backchannel"
+        backchannel = chooseBackchannel()
+
+        while backchannel == lans:
+            backchannel = chooseBackchannel()
+        #print(backchannel)
+        return backchannel
     else:
     # ... la suite de la phrase
 
@@ -54,22 +63,26 @@ def eliza(sentence):
 
 def discussion(sentence, lans):
     answer = ""
+    topic = ""
 
     splittedSentence = re.split(" ", sentence)
     #print(splittedSentence)
 
     for word in splittedSentence:
         topic = findKeyword(word)
+        #print("topic : " + topic)
+        if topic != "":
+            break
 
     if topic != "":
 
         answer = selectRandom(topic)
-        #print(answer)
+
         if lans:
             while answer == lans[-1]:
                 #print("bonjour")
                 answer = selectRandom(topic)
-
+    #print("answer : " + answer)
     return answer
 
 def findKeyword(word):
@@ -78,7 +91,6 @@ def findKeyword(word):
     for ltopic in vocs:
         for keyword in ltopic:
             if word == keyword:
-
                 return ltopic[0]
     return ""
 
@@ -91,7 +103,23 @@ def selectRandom(topic):
             n = randint(1,len(ltopic)-1)
             return ltopic[n] #answer
 
+def chooseBackchannel():
+    backchannels = read_backchannels("./../res/EN/backchannels.txt")
+    n = randint(0,len(backchannels)-1)
 
+    #print(backchannels[n])
+    return backchannels[n]
+
+def read_backchannels(fileName):
+	file = open(fileName, "r")
+	backchannels = []
+
+	for line in file:
+		line_splited = line.split("\n")
+		backchannels.append(line_splited[0])
+
+	file.close()
+	return backchannels
 
 def read_inputs(fileName):
     inputs = []
@@ -108,6 +136,7 @@ def read_inputs(fileName):
     filepointer.close()
     #print(inputs)
     return inputs
+
 
 def read_voc():
     ltopic = []
