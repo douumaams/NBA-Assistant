@@ -1,0 +1,5 @@
+- tout caster en minuscule
+- accepter les formes contractées (I'm, They're, ...)
+- creer une table de correspondance pour les termes NBA (ex: PPG = point, point per game)
+- recupérer les informations sur les matchs et les equipes a partir d'internet
+- identifier les cibles à récuperer dans l'input de l'utilisateur

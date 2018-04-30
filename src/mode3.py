@@ -27,6 +27,12 @@ def sendRequest(url):
 
 	return returnValue
 
+# def loadData(url):
+	
+
+
+
+
 l = sendRequest("https://en.wikipedia.org/wiki/Boston_Celtics")
 # l = sendRequest("https://basketball.realgm.com/nba/stats/2018/Averages/Qualified/points/All/desc/1/Regular_Season")
 
