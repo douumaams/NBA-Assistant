@@ -13,7 +13,7 @@ def sendRequest(url):
 	# Recuperer les intitulés des colonnes
 	for table in soup.findAll("table"):
 		for th in table.findAll("th"):
-			row.append(th)
+			row.append(th.text)
 	
 	returnValue.append(list(row))
 	# Ensuite on récupere les informations sur les joueurs
@@ -21,7 +21,7 @@ def sendRequest(url):
 	
 	for table in soup.findAll("table"):
 		for td in table.findAll("td"):
-			row.append(td)
+			row.append(td.text)
 		returnValue.append(list(row))
 		row[:] = []
 
@@ -32,7 +32,7 @@ l = sendRequest("https://en.wikipedia.org/wiki/Boston_Celtics")
 
 # soup = BeautifulSoup(l[1][1],"lxml")
 
-print(l)
+print(l[1][2])
 # print(sendRequest("https://basketball.realgm.com/nba/stats/2018/Averages/Qualified/points/All/desc/2/Regular_Season"))
 
 

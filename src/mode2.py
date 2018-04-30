@@ -183,9 +183,12 @@ def analyse(sentence):
 
 
     # ... la suite de la phrase
-    print("Bot: " + response + " " + sentence.strip(request) + "?")
-
+    if response == "Why ":
+    	print("jaja")
+    else:
+    	print("Bot: " + response + " " + sentence.strip(request) + "?")
+# 
 if __name__=="__main__":
-    #chatbot()
-    read_voc()
-    read_ans()
+    chatbot()
+    # read_voc()
+    # read_ans()
