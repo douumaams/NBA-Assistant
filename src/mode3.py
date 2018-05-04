@@ -390,8 +390,8 @@ def read_targets(fileName):
 	return expectedTargets
 
 def findInformations(targets):
-	# extraction = extractKey(targets)
-	extraction = targets
+	extraction = extractKey(targets)
+	#extraction = targets
 	expectedTargets = read_targets("./../res/data/targetList.txt")
 	i = 1
 	for et in expectedTargets:
@@ -405,8 +405,22 @@ def findInformations(targets):
 		i = i + 1
 
 	print(i)
-	if i == 1 : print("_players.txt")
-	if i == 2 : print("_players.txt, _video.txt")
+
+	if i == 1 :
+		print("_players.txt")
+		index = extraction.index("_players.txt")
+		playerName = [x[1] for x in targets if x[0] == "_players.txt"]
+		print(playerName)
+		# player = searchPlayer(playerName)
+		# print(player)
+	if i == 2 :
+		print("_players.txt, _video.txt")
+		index = extraction.index("_players.txt")
+		playerName = [x[1] for x in targets if x[0] == "_players.txt"]
+		print(playerName)
+		splittedName = playerName[0].split(" ")
+		print(splittedName)
+		print("https://www.youtube.com/results?search_query=" + splittedName[0] + "+" + splittedName[1] + "highlights")
 	if i == 3 : print("_players.txt, _bestWorse.txt")
 	if i == 4 : print("_players.txt, _teamCity.txt")
 	if i == 5 : print("_statistics.txt, _players.txt")
@@ -426,7 +440,8 @@ def nba_assistant():
 	# 	targets = findTargets(normalizedTokens)
 	# 	statistics = getStats(targets)
 	# 	ans = answer(statistics)
-	findInformations(["_video.txt", "_players.txt"])
+	findInformations([("_statistics.txt", "rebound"), ("_players.txt", "James Harden")]
+)
 
 if __name__=="__main__":
 	nba_assistant()
