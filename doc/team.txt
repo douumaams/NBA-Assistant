@@ -1,0 +1,18 @@
+- name
+- conference
+- division
+- foundation
+- history
+- arena
+- location
+- team colors
+-  main sponsor
+- president
+- general manager
+- head coach
+- affiliation(s)
+- championships
+- conference titles
+- division titles
+- retired numbers
+- website

@@ -27,9 +27,9 @@ def analyse(sentence, lans):
 
 
 def eliza(sentence, lans):
-    outputs = read_inputs("./../res/EN/outputs.txt")
+    outputs = read_inputs("./../res/EN/ans/outputs.txt")
     #print(outputs)
-    inputs = read_inputs("./../res/EN/inputs.txt")
+    inputs = read_inputs("./../res/EN/voc/inputs.txt")
 
     #print(inputs)
     response = "Why "
@@ -104,7 +104,7 @@ def selectRandom(topic):
             return ltopic[n] #answer
 
 def chooseBackchannel():
-    backchannels = read_backchannels("./../res/EN/backchannels.txt")
+    backchannels = read_backchannels("./../res/EN/ans/backchannels.txt")
     n = randint(0,len(backchannels)-1)
 
     #print(backchannels[n])
@@ -137,109 +137,37 @@ def read_inputs(fileName):
     #print(inputs)
     return inputs
 
+def read_file(path):
+    l = []
+    filepointer = open(path,"r")
+    for line in filepointer.readlines():
+        l.append(line.strip("\n"))
+
+    filepointer.close()
+    return l
 
 def read_voc():
+
     ltopic = []
-    lvoc = []
 
-    #family
-    filepointer = open("./../res/EN/familyVoc.txt","r")
-    for line in filepointer.readlines():
-        lvoc.append(line.strip("\n"))
+    ltopic.append(read_file("./../res/EN/voc/familyVoc.txt"))
+    ltopic.append(read_file("./../res/EN/voc/sportVoc.txt"))
+    ltopic.append(read_file("./../res/EN/voc/cookingVoc.txt"))
+    ltopic.append(read_file("./../res/EN/voc/computerScienceVoc.txt"))
+    ltopic.append(read_file("./../res/EN/voc/motorcycleVoc.txt"))
 
-    ltopic.append(lvoc[:])
-    lvoc.clear()
-    filepointer.close()
-
-    #sport
-    filepointer = open("./../res/EN/sportVoc.txt","r")
-    for line in filepointer.readlines():
-        lvoc.append(line.strip("\n"))
-
-    ltopic.append(lvoc[:])
-    lvoc.clear()
-    filepointer.close()
-
-    #cooking
-    filepointer = open("./../res/EN/cookingVoc.txt","r")
-    for line in filepointer.readlines():
-        lvoc.append(line.strip("\n"))
-
-    ltopic.append(lvoc[:])
-    lvoc.clear()
-    filepointer.close()
-
-    #computerScience
-    filepointer = open("./../res/EN/computerScienceVoc.txt","r")
-    for line in filepointer.readlines():
-        lvoc.append(line.strip("\n"))
-
-    ltopic.append(lvoc[:])
-    lvoc.clear()
-    filepointer.close()
-
-    #motorcycle
-    filepointer = open("./../res/EN/motorcycleVoc.txt","r")
-    for line in filepointer.readlines():
-        lvoc.append(line.strip("\n"))
-
-    ltopic.append(lvoc[:])
-    lvoc.clear()
-    filepointer.close()
-
-    #print(ltopic)
     return ltopic
 
 def read_ans():
+
     ltopic = []
-    lans = []
 
-    #family
-    filepointer = open("./../res/EN/familyAns.txt","r")
-    for line in filepointer.readlines():
-        lans.append(line.strip("\n"))
+    ltopic.append(read_file("./../res/EN/ans/familyAns.txt"))
+    ltopic.append(read_file("./../res/EN/ans/sportAns.txt"))
+    ltopic.append(read_file("./../res/EN/ans/cookingAns.txt"))
+    ltopic.append(read_file("./../res/EN/ans/computerScienceAns.txt"))
+    ltopic.append(read_file("./../res/EN/ans/motorcycleAns.txt"))
 
-    ltopic.append(lans[:])
-    lans.clear()
-    filepointer.close()
-
-    #sport
-    filepointer = open("./../res/EN/sportAns.txt","r")
-    for line in filepointer.readlines():
-        lans.append(line.strip("\n"))
-
-    ltopic.append(lans[:])
-    lans.clear()
-    filepointer.close()
-
-    #cooking
-    filepointer = open("./../res/EN/cookAns.txt","r")
-    for line in filepointer.readlines():
-        lans.append(line.strip("\n"))
-
-    ltopic.append(lans[:])
-    lans.clear()
-    filepointer.close()
-
-    #computerScience
-    filepointer = open("./../res/EN/computerScienceAns.txt","r")
-    for line in filepointer.readlines():
-        lans.append(line.strip("\n"))
-
-    ltopic.append(lans[:])
-    lans.clear()
-    filepointer.close()
-
-    #motorcycle
-    filepointer = open("./../res/EN/motorcycleAns.txt","r")
-    for line in filepointer.readlines():
-        lans.append(line.strip("\n"))
-
-    ltopic.append(lans[:])
-    lans.clear()
-    filepointer.close()
-
-    #print(ltopic)
     return ltopic
 if __name__=="__main__":
     chatbot()

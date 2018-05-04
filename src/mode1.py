@@ -32,5 +32,5 @@ def read_backchannels(fileName):
 	return backchannels
 
 if __name__=="__main__":
-	backchannels = read_backchannels("./../res/EN/backchannels.txt")
+	backchannels = read_backchannels("./../res/EN/ans/backchannels.txt")
 	chatbot(backchannels)
