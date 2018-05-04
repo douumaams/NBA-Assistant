@@ -1,0 +1,58 @@
+Targets:
+
+  P : Player name
+  S : Statistic
+  B/W : Best/Worse
+  M/L : Most/Less
+
+Individual questions:
+
+- player's name
+  - How many _statistics.txt _player.txt average ?
+  - What is the _statistics.txt of _player.txt ?
+  - In what category is _players.txt the _bw.txt ?
+  - In which team does _players.txt play ?
+  - Can I see highlight video of _players.txt ?
+
+
+Aggregate questions:
+
+- "Who", "Which", "How many" questions:
+  - Who is the B/W player ?
+  - Who scores the M/L points ?
+  - Which player S the M/L?
+  - What is the M/L S ?
+
+Player's characteristics(CSV file):
+
+- name
+(- age
+- weight
+- height
+- team
+- salary
+- birthplace
+- birth date
+- nationality
+- hand
+- position )
+- gp
+- mpg
+- fgm
+- fga
+- fg%
+- 3pm
+- 3pa
+- 3pt%
+- ftm
+- fta
+- ft%
+- tov
+- pf
+- orb
+- drb
+- rpg
+- apg
+- spg
+- bpg
+- ppg
