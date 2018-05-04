@@ -96,14 +96,14 @@ def searchPlayer(name):
 # (loadTeams("https://en.wikipedia.org/wiki/Boston_Celtics"))
 # print(sendRequest("https://en.wikipedia.org/wiki/Atlanta_Hawks")[1])
 
-def loadTeams(teamNamesFile, teamNamesInfoFile):
+def loadTeams(fileSrc, fileDest):
 	lTeams = []
-	filepointer = open(teamNamesFile, "r")
+	filepointer = open(fileSrc, "r")
 	for line in filepointer.readlines():
 		lTeams.append(line.strip("\n"))
 	filepointer.close()
 	
-	filepointer = open(teamNamesInfoFile,"w")
+	filepointer = open(fileDest,"w")
 	rep = sendRequest("https://en.wikipedia.org/wiki/" + lTeams[0])
 	# on remplie la premiere ligne du fchier par les intutilés des colonnes
 	for index in range(0, 20):
@@ -119,7 +119,6 @@ def loadTeams(teamNamesFile, teamNamesInfoFile):
 
 
 
-# loadTeams("./../res/EN/TeamNames.txt","./test.csv")
   #   for x in range(0, 20):
 		# print("" + l[0][x] + "============>" + l[1][x + 3])
 
@@ -201,40 +200,6 @@ def compareListe(l1, l2, index):
 			return 0
 	return 1
 
-# l = loadPlayersFromFile("exemplejoueur.txt")
-# print(compareListe(l[0],l[0],0))
-# print(loadPlayersFromFile("exemplejoueur.txt"))
-
-# def findTargets(sentence, fileName):
-# 	lwordIN = re.split(" ", sentence)
-# 	lwordOUT = []
-# 	filepointer = open(fileName, "r")
-# 	returnValue = []
-# 	for line in filepointer.readlines():
-# 		line = line.strip("\n")
-# 		lwordOUT = re.split(" ", line)
-# 		for i in range(0,min(len(lwordIN),len(lwordOUT))):
-# 			if re.match("_.*",lwordOUT[i]) is not None :
-# 				l = loadPlayersFromFile("./../res/EN/"+lwordOUT[i])
-# 				# print(l)
-# 				for j in range(0, len(l)):
-# 					# print(l)
-# 					if(compareListe(l[j], lwordIN, i)):
-# 						print(l[j])
-# 						print("----------------")
-# 						print(lwordIN[i+2])
-# 						returnValue.append((lwordOUT[i],l[j]))
-# 						i = i + len(l[j]) 
-# 						print(len(l[j]))
-# 						break 
-# 				# faut modifier la boucle for en while
-# 					# load le fichier sous forme de liste de liste
-# 					# une fonction qui prend 2 liste et un indice et compare les elements.
-# 			elif lwordIN[i] != lwordOUT[i]:
-# 				break
-# 	filepointer.close()
-# 	return returnValue
-
 
 def findTargets(sentence, fileName):
 	lwordIN = re.split(" ", sentence)
@@ -311,8 +276,8 @@ def findCorrespondance(l):
 # print(findCorrespondance(findTargets("In what category is Taurean Prince the best ?","./../res/EN/accepted_sentences.txt")))
 # print("\n\nIn which team does Taurean Prince play ?")
 # print(findCorrespondance(findTargets("In which team does Taurean Prince play ?","./../res/EN/accepted_sentences.txt")))
-print("\n\nHow many defensive rebound James Harden average ?")
-print(findCorrespondance(findTargets("How many defensive rebound James Harden average ?","./../res/EN/accepted_sentences.txt")))
+# print("\n\nHow many defensive rebound James Harden average ?")
+# print(findCorrespondance(findTargets("How many defensive rebound James Harden average ?","./../res/EN/accepted_sentences.txt")))
 # print(loadPlayersFromFile("./../res/EN/_statistics.txt"))
 # 	filepointer.close()
 
@@ -336,4 +301,6 @@ print(findCorrespondance(findTargets("How many defensive rebound James Harden av
 # print(sendRequest("https://basketball.realgm.com/nba/stats/2018/Averages/Qualified/points/All/desc/2/Regular_Season"))
 
 
-
+# saveData("./../res/data/playersStatistics.csv")
+loadGames("https://www.basketball-reference.com/leagues/NBA_2018_games.html", "./../res/data/gamesInfo.csv")
+# loadTeams("./../res/EN/TeamNames.txt","./../res/data/TeamsInfo.csv")
