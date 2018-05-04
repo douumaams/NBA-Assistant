@@ -191,6 +191,7 @@ def loadPlayersFromFile(fileName):
 	for line in filepointer.readlines():
 		line = line.strip("\n")
 		returnValue.append(re.split(" ",line))
+	
 	filepointer.close()
 	return returnValue
 
@@ -251,27 +252,40 @@ def findTargets(sentence, fileName):
 			if ((i + ecart) >= len(lwordOUT) or (i + index) >= len(lwordIN)):
 				break
 			if lwordOUT[i+ecart].startswith('_'):
-				print(lwordOUT[i+ecart])
+				# print(lwordOUT[i+ecart])
 				l = loadPlayersFromFile("./../res/EN/"+lwordOUT[i+ecart])
 				# print(l)
+				# print(i+index)
+				# print(i+ecart)
 				for j in range(0, len(l)):
 					# print(l)
 					if(compareListe(l[j], lwordIN, i+index) == 1):
-						print(l[j])
-						print("----------------")
-						returnValue.append((lwordOUT[i+ecart],l[j]))
+						# print(lwordIN[i+index]+"--------"+lwordOUT[i+ecart])
+						# print(l[j])
+						returnValue.append((lwordOUT[i+ecart], " ".join(l[j])))
 						# i = i + len(l[j])
-						index = index + len(l[j])
-						ecart = ecart + len(l[j]) - 1 
+						if len(l[j]) > 1:
+							index = index + len(l[j]) - 1
+							ecart = ecart 
+						# print(len(l[j]))
+						# print(i + index)
+						# print(i + ecart)
+						# print("-------------------------")
+						# print(lwordOUT[i+ecart])
 						# print("MyINDEX = "+ str(index))
 						# print(lwordIN[i])
 						# print(len(l[j]))
-						break 
+						# break 
+					# else:
+					# 	print(l[j])
+					# 	print(lwordIN[i+index])
+					# 	print("___________________________________________________\n")
+					# 	print(lwordIN[i+index+1])
+					# 	print("\n\n\n\n\n_________________________________________________________")
 				# faut modifier la boucle for en while
 					# load le fichier sous forme de liste de liste
 					# une fonction qui prend 2 liste et un indice et compare les elements.
 			elif lwordIN[i+index] != lwordOUT[i+ecart]:
-				print(lwordIN[i+index]+"---"+lwordOUT[i+ecart])
 				break
 			 
 
@@ -281,8 +295,25 @@ def findTargets(sentence, fileName):
 	filepointer.close()
 	return returnValue
 
-print(findTargets("In what category is Taurean Prince the best ?","./../res/EN/accepted_sentences.txt"))
-		
+def findCorrespondance(l):
+	for i in range(0,len(l)):
+		filepointer = open("./../res/EN/Cor/" + l[i][0].replace(".txt","Correspondance.txt"),"r")
+		for line in filepointer.readlines():
+			line = line.strip("\n")
+			lline = re.split(", ", line)
+			if l[i][1] in lline:
+				print(lline[0])
+				l[i] = (l[i][0],lline[0])
+				break
+		filepointer.close()
+		return l
+# print("In what category is Taurean Prince the best ?")
+# print(findCorrespondance(findTargets("In what category is Taurean Prince the best ?","./../res/EN/accepted_sentences.txt")))
+# print("\n\nIn which team does Taurean Prince play ?")
+# print(findCorrespondance(findTargets("In which team does Taurean Prince play ?","./../res/EN/accepted_sentences.txt")))
+print("\n\nHow many defensive rebound James Harden average ?")
+print(findCorrespondance(findTargets("How many defensive rebound James Harden average ?","./../res/EN/accepted_sentences.txt")))
+# print(loadPlayersFromFile("./../res/EN/_statistics.txt"))
 # 	filepointer.close()
 
 
