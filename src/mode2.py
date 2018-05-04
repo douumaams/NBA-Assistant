@@ -27,9 +27,9 @@ def analyse(sentence, lans):
 
 
 def eliza(sentence, lans):
-    outputs = read_inputs("./../res/EN/outputs.txt")
+    outputs = read_inputs("./../res/EN/ans/outputs.txt")
     #print(outputs)
-    inputs = read_inputs("./../res/EN/inputs.txt")
+    inputs = read_inputs("./../res/EN/voc/inputs.txt")
 
     #print(inputs)
     response = "Why "
@@ -104,7 +104,7 @@ def selectRandom(topic):
             return ltopic[n] #answer
 
 def chooseBackchannel():
-    backchannels = read_backchannels("./../res/EN/backchannels.txt")
+    backchannels = read_backchannels("./../res/EN/ans/backchannels.txt")
     n = randint(0,len(backchannels)-1)
 
     #print(backchannels[n])
@@ -150,11 +150,11 @@ def read_voc():
 
     ltopic = []
 
-    ltopic.append(read_file("./../res/EN/familyVoc.txt"))
-    ltopic.append(read_file("./../res/EN/sportVoc.txt"))
-    ltopic.append(read_file("./../res/EN/cookingVoc.txt"))
-    ltopic.append(read_file("./../res/EN/computerScienceVoc.txt"))
-    ltopic.append(read_file("./../res/EN/motorcycleVoc.txt"))
+    ltopic.append(read_file("./../res/EN/voc/familyVoc.txt"))
+    ltopic.append(read_file("./../res/EN/voc/sportVoc.txt"))
+    ltopic.append(read_file("./../res/EN/voc/cookingVoc.txt"))
+    ltopic.append(read_file("./../res/EN/voc/computerScienceVoc.txt"))
+    ltopic.append(read_file("./../res/EN/voc/motorcycleVoc.txt"))
 
     return ltopic
 
@@ -162,14 +162,13 @@ def read_ans():
 
     ltopic = []
 
-    ltopic.append(read_file("./../res/EN/familyAns.txt"))
-    ltopic.append(read_file("./../res/EN/sportAns.txt"))
-    ltopic.append(read_file("./../res/EN/cookAns.txt"))
-    ltopic.append(read_file("./../res/EN/computerScienceAns.txt"))
-    ltopic.append(read_file("./../res/EN/motorcycleAns.txt"))
+    ltopic.append(read_file("./../res/EN/ans/familyAns.txt"))
+    ltopic.append(read_file("./../res/EN/ans/sportAns.txt"))
+    ltopic.append(read_file("./../res/EN/ans/cookingAns.txt"))
+    ltopic.append(read_file("./../res/EN/ans/computerScienceAns.txt"))
+    ltopic.append(read_file("./../res/EN/ans/motorcycleAns.txt"))
 
     return ltopic
-
 if __name__=="__main__":
     chatbot()
     #read_voc()

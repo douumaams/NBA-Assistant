@@ -1,0 +1,69 @@
+point
+points
+gp
+game played
+game
+games
+match
+mpg
+minute per game
+minutes
+time
+duration
+fgm
+field goal made
+field goal
+fga
+field goal attempts
+field goal attempted
+field goal attempt
+fg%
+field goal percentage
+percentage of field goal
+3pm
+three point made
+3 point made
+3 pt made
+3pt made
+three point
+3 point
+3 pt
+3 pt attempt
+3pt
+3pa
+three point attempt
+3 point attempt
+3pt attempt
+three point attempted
+3 point attempted
+3 pt attempted
+3pt attempted
+3pt%
+three point percentage
+3 point percentage
+3 pt percentage
+3pt percentage
+ftm
+free throw made
+free throw
+ft
+fta
+free throw attempts
+free throw attempted
+free throw attempt
+ft%
+free throw percentage
+percentage of free throws
+tov, turnover, turnovers
+pf
+personal fouls
+fouls
+orb
+offensive rebound
+drb
+defensive rebound
+rpg
+rebounds per game
+rebound per game
+rebound
+rebounds
