@@ -65,46 +65,14 @@ def searchPlayer(name):
 	filepointer.close()
 	return temp
 
-# lien pour la liste des equipes
-# https://en.wikipedia.org/wiki/List_of_current_NBA_team_rosters
-# def loadTeams(url):
-# 	# r = requests.get(url)
-# 	# soup = BeautifulSoup(r.content, "html.parser")
-# 	returnValue = []
-# 	# row = []
-# 	# table = soup.findAll("table")
-# 	# return table
-# 	# for th in table[0].findAll("th"):
-# 	# 	row.append(th.text)
-
-# 	# returnValue.append(list(row))
-# 	# row[:] = []
-
-# 	# for td in table.findAll("td"):
-# 	# 	row.append(td.text)
-# 	# returnValue.append(row)
-# 	# return returnValue
-# 	l = sendRequest(url)
-# 	# returnValue.append(l[:17])
-# 	for x in range(0,20):
-# 		print("" + l[0][x] + "============>" + l[1][x + 3])
-
-
-# 	# returnValue.append(l[4:22])
-# 	# return returnValue
-
-
-# (loadTeams("https://en.wikipedia.org/wiki/Boston_Celtics"))
-# print(sendRequest("https://en.wikipedia.org/wiki/Atlanta_Hawks")[1])
-
-def loadTeams(teamNamesFile, teamNamesInfoFile):
+def loadTeams(fileSrc, fileDest):
 	lTeams = []
-	filepointer = open(teamNamesFile, "r")
+	filepointer = open(fileSrc, "r")
 	for line in filepointer.readlines():
 		lTeams.append(line.strip("\n"))
 	filepointer.close()
 
-	filepointer = open(teamNamesInfoFile,"w")
+	filepointer = open(fileDest,"w")
 	rep = sendRequest("https://en.wikipedia.org/wiki/" + lTeams[0])
 	# on remplie la premiere ligne du fchier par les intutilés des colonnes
 	for index in range(0, 20):
@@ -117,24 +85,6 @@ def loadTeams(teamNamesFile, teamNamesInfoFile):
 			filepointer.write(rep[1][index + 3].replace("\n"," ").replace	(",",".") + ", ")
 		filepointer.write("\n")
 	filepointer.close()
-
-
-
-# loadTeams("./../res/EN/TeamNames.txt","./test.csv")
-  #   for x in range(0, 20):
-		# print("" + l[0][x] + "============>" + l[1][x + 3])
-
-
-#TODO:
-#	- Recuperer les données e wikipédia
-#	- proposer le bon joueur si l'utilisateur se trompe dans l'ecriture du nom
-#	- Faire les correspondance entre les termes NBA t les termes que l'utilisateur peut utiliser
-#	-
-#
-#
-
-
-
 
 
 def saveData(fileName):
@@ -167,9 +117,6 @@ def loadGames(url, fileName):
 	for e in l[1]:
 		if(indexLine == 0):
 			filepointer.write("\n")
-			# print("\n")
-			# print("\n\n\n\n---------------------------------------------------------------------")
-			# print(l[0][indexColonne + 9])
 			filepointer.write(l[0][indexColonne + 10].replace(","," "))
 			indexColonne = indexColonne + 1
 			filepointer.write(", ")
@@ -177,12 +124,6 @@ def loadGames(url, fileName):
 		filepointer.write(e.replace("\n"," "))
 		filepointer.write(", ")
 		indexLine = (indexLine + 1)%9
-	# 	print(e)
-		# print([l[0][indexLine*indexColonne+9]])
-		# lines.append([l[0][indexLine]].append(e))
-		# indexLine = (indexLine+1) % 9
-		# if indexLine
-	# print(lines)
 	filepointer.close()
 
 
@@ -202,41 +143,6 @@ def compareListe(l1, l2, index):
 			return 0
 	return 1
 
-# l = loadPlayersFromFile("exemplejoueur.txt")
-# print(compareListe(l[0],l[0],0))
-# print(loadPlayersFromFile("exemplejoueur.txt"))
-
-# def findTargets(sentence, fileName):
-# 	lwordIN = re.split(" ", sentence)
-# 	lwordOUT = []
-# 	filepointer = open(fileName, "r")
-# 	returnValue = []
-# 	for line in filepointer.readlines():
-# 		line = line.strip("\n")
-# 		lwordOUT = re.split(" ", line)
-# 		for i in range(0,min(len(lwordIN),len(lwordOUT))):
-# 			if re.match("_.*",lwordOUT[i]) is not None :
-# 				l = loadPlayersFromFile("./../res/EN/"+lwordOUT[i])
-# 				# print(l)
-# 				for j in range(0, len(l)):
-# 					# print(l)
-# 					if(compareListe(l[j], lwordIN, i)):
-# 						print(l[j])
-# 						print("----------------")
-# 						print(lwordIN[i+2])
-# 						returnValue.append((lwordOUT[i],l[j]))
-# 						i = i + len(l[j])
-# 						print(len(l[j]))
-# 						break
-# 				# faut modifier la boucle for en while
-# 					# load le fichier sous forme de liste de liste
-# 					# une fonction qui prend 2 liste et un indice et compare les elements.
-# 			elif lwordIN[i] != lwordOUT[i]:
-# 				break
-# 	filepointer.close()
-# 	return returnValue
-
-
 def findTargets(sentence, fileName):
 	lwordIN = re.split(" ", sentence)
 	lwordOUT = []
@@ -253,45 +159,15 @@ def findTargets(sentence, fileName):
 			if ((i + ecart) >= len(lwordOUT) or (i + index) >= len(lwordIN)):
 				break
 			if lwordOUT[i+ecart].startswith('_'):
-				# print(lwordOUT[i+ecart])
 				l = loadPlayersFromFile("./../res/EN/voc/"+lwordOUT[i+ecart])
-				# print(l)
-				# print(i+index)
-				# print(i+ecart)
 				for j in range(0, len(l)):
-					# print(l)
 					if(compareListe(l[j], lwordIN, i+index) == 1):
-						# print(lwordIN[i+index]+"--------"+lwordOUT[i+ecart])
-						# print(l[j])
 						returnValue.append((lwordOUT[i+ecart], " ".join(l[j])))
-						# i = i + len(l[j])
 						if len(l[j]) > 1:
 							index = index + len(l[j]) - 1
 							ecart = ecart
-						# print(len(l[j]))
-						# print(i + index)
-						# print(i + ecart)
-						# print("-------------------------")
-						# print(lwordOUT[i+ecart])
-						# print("MyINDEX = "+ str(index))
-						# print(lwordIN[i])
-						# print(len(l[j]))
-						# break
-					# else:
-					# 	print(l[j])
-					# 	print(lwordIN[i+index])
-					# 	print("___________________________________________________\n")
-					# 	print(lwordIN[i+index+1])
-					# 	print("\n\n\n\n\n_________________________________________________________")
-				# faut modifier la boucle for en while
-					# load le fichier sous forme de liste de liste
-					# une fonction qui prend 2 liste et un indice et compare les elements.
 			elif lwordIN[i+index] != lwordOUT[i+ecart]:
 				break
-
-
-			# print("index = " + str(index))
-			# print(index)
 			i = i + 1
 	filepointer.close()
 	return returnValue
@@ -308,33 +184,7 @@ def findCorrespondance(l):
 				break
 		filepointer.close()
 		return l
-# print("In what category is Taurean Prince the best ?")
-# print(findCorrespondance(findTargets("In what category is Taurean Prince the best ?","./../res/EN/accepted_sentences.txt")))
-# print("\n\nIn which team does Taurean Prince play ?")
-# print(findCorrespondance(findTargets("In which team does Taurean Prince play ?","./../res/EN/accepted_sentences.txt")))
-print("\n\nHow many defensive rebound James Harden average ?")
-print(findCorrespondance(findTargets("How many defensive rebound James Harden average ?","./../res/EN/voc/accepted_sentences.txt")))
-# print(loadPlayersFromFile("./../res/EN/_statistics.txt"))
-# 	filepointer.close()
 
-
-# loadGames("https://www.basketball-reference.com/leagues/NBA_2018_games.html", "test2.csv")
-# loadGames("https://www.basketball-reference.com/leagues/NBA_2018_games-november.html", "test_november.csv")
-
-
-# saveData("./ici.csv")
-# def loadData(url):
-# print(searchPlayer("Kevin Durant"))
-
-
-
-# l = sendRequest("https://en.wikipedia.org/wiki/Boston_Celtics")
-# l = sendRequest("https://basketball.realgm.com/nba/stats/2018/Averages/Qualified/points/All/desc/1/Regular_Season")
-
-# soup = BeautifulSoup(l[1][1],"lxml")
-
-# print(l)
-# print(sendRequest("https://basketball.realgm.com/nba/stats/2018/Averages/Qualified/points/All/desc/2/Regular_Season"))
 # def getInputs():
 # 	return input("Me : ")
 #
@@ -445,3 +295,14 @@ def nba_assistant():
 
 if __name__=="__main__":
 	nba_assistant()
+
+
+
+
+
+
+
+# print("In what category is Taurean Prince the best ?")
+# print(findCorrespondance(findTargets("In what category is Taurean Prince the best ?","./../res/EN/accepted_sentences.txt")))
+# print("\n\nIn which team does Taurean Prince play ?")
+# print(findCorrespondance(findTargets("In which team does Taurean Prince play ?","./../res/EN/accepted_sentences.txt")))
