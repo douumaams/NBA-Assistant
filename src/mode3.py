@@ -56,7 +56,7 @@ def sendRequest(url):
 
 
 def searchPlayer(name):
-	filepointer = open("./ici.csv","r")
+	filepointer = open("./../res/data/playerStatistics.csv","r")
 	temp = []
 	for line in filepointer.readlines():
 		line = line.strip("\n")
@@ -113,7 +113,7 @@ def loadGames(url, fileName):
 	indexColonne = 0
 	filepointer = open(fileName, "w")
 
-	print(l[1])
+	# print(l[1])
 	for i in range(0,10):
 		filepointer.write(l[0][i].replace("\n",""))
 		filepointer.write(", ")
@@ -170,7 +170,7 @@ def findTargets(sentence, fileName):
 							returnValue.append((lwordOUT[i+ecart], " ".join(l[j])))
 						if len(l[j]) >= 1:
 							index = index + len(l[j]) - 1
-							# ecart = ecart + 
+							# ecart = ecart +
 							break
 			elif lwordIN[i+index] != lwordOUT[i+ecart]:
 				break
@@ -183,18 +183,18 @@ def findCorrespondance(l):
 		filepointer = open("./../res/EN/cor/" + l[i][0].replace(".txt","Correspondance.txt"),"r")
 		for line in filepointer.readlines():
 			line = line.strip("\n")
-			print(line)
+			# print(line)
 			lline = re.split(", ", line)
 			if l[i][1] in lline:
-				print(lline[0])
+				# print(lline[0])
 				l[i] = (l[i][0],lline[0])
 				break
 		filepointer.close()
 	return l
 
-# def getInputs():
-# 	return input("Me : ")
-#
+def getInputs():
+	return input("Me : ")
+
 # def tokenization(inputs):
 # 	#print(re.split(" ", inputs))
 # 	return re.split(" ", inputs)
@@ -227,10 +227,12 @@ def findCorrespondance(l):
 #
 def extractKey(targets):
 	extraction = []
-	for t in targets:
-		print(t)
-		(k,v) = t
-		extraction.append(k)
+	if targets is not None:
+
+		for t in targets:
+			# print(t)
+			(k,v) = t
+			extraction.append(k)
 	return extraction
 
 def read_targets(fileName):
@@ -246,9 +248,42 @@ def read_targets(fileName):
 	file.close()
 	return expectedTargets
 
+def statsToNumber(str):
+    switcher = {
+        "gp": GP,
+        "mpg": MGP,
+        "fgm": FGM,
+    	"fga": FGA,
+    	"fg%": FG_PER,
+    	"3pm": THREE_PM,
+    	"3pa": THREE_PA,
+    	"3pt%": THREE_P_PER,
+    	"ftm": FTM,
+    	"fta": FTA,
+    	"ft%": FT_PER,
+    	"tov": TOV,
+    	"pf": PF,
+    	"orb": ORB,
+    	"drb": DRB,
+    	"rpg": RPG,
+    	"apg": APG,
+    	"spg": SPG,
+    	"bpg": BPG,
+    	"ppg": PPG,
+    }
+
+    return switcher.get(str, -1)
+
 def findInformations(targets):
-	# extraction = extractKey(targets)
-	extraction = targets
+	informations = []
+
+	if not targets:
+		print("Sorry, I did not understand your question.\nCan you rephrase it ?")
+		return informations
+
+	# targets = findCorrespondance(targets)
+	extraction = extractKey(targets)
+	#extraction = targets
 	expectedTargets = read_targets("./../res/data/targetList.txt")
 	i = 1
 	for et in expectedTargets:
@@ -261,14 +296,168 @@ def findInformations(targets):
 			break
 		i = i + 1
 
-	print(i)
-	if i == 1 : print("_players.txt")
-	if i == 2 : print("_players.txt, _video.txt")
-	if i == 3 : print("_players.txt, _bestWorse.txt")
-	if i == 4 : print("_players.txt, _teamCity.txt")
-	if i == 5 : print("_statistics.txt, _players.txt")
-	if i == 6 : print("_statistics.txt, _bestWorse.txt")
-	if i == 7 : print("_statistics.txt, _mostLess.txt")
+	# print(i)
+
+	if i == 1 : #ok
+		print("_players.txt")
+
+		playerName = [x[1] for x in targets if x[0] == "_players.txt"]
+		print(playerName)
+		player = searchPlayer(playerName[0])
+		player.pop(0)
+
+		print(player)
+		couple = ("_players.txt", player[0])
+		informations.append(couple)
+		couple = ("_value.txt", player[1])
+		informations.append(couple)
+		couple = ("_value.txt", player[2])
+		informations.append(couple)
+		couple = ("_value.txt", player[3])
+		informations.append(couple)
+		return informations
+
+
+	if i == 2 : #ok
+		print("_players.txt, _link.txt")
+
+		playerName = [x[1] for x in targets if x[0] == "_players.txt"]
+		print(playerName)
+		splittedName = playerName[0].split(" ")
+		print(splittedName)
+		link = "https://www.youtube.com/results?search_query=" + splittedName[0] + "+" + splittedName[1] + "+" + "highlights"
+		print("https://www.youtube.com/results?search_query=" + splittedName[0] + "+" + splittedName[1] + "+" + "highlights")
+		couple = ("_link.txt", link)
+		informations.append(couple)
+		couple = ("_players.txt", playerName[0])
+		informations.append(couple)
+		return informations
+
+	if i == 3 :
+		print("_players.txt, _bestWorse.txt")
+	
+		playerName = [x[1] for x in targets if x[0] == "_players.txt"]
+		player = searchPlayer(playerName[0])
+		bestWorse = [x[1] for x in targets if x[0] == "_bestWorse.txt"]
+
+	if i == 4 : #ok
+		print("_players.txt, _teamCity.txt")
+
+		playerName = [x[1] for x in targets if x[0] == "_players.txt"]
+		player = searchPlayer(playerName[0])
+		print(player[TEAM])
+
+		couple = ("_players.txt", playerName[0])
+		informations.append(couple)
+		couple = ("_teamCity.txt", player[TEAM])
+		informations.append(couple)
+
+		return informations
+
+	if i == 5 : #ok
+		print("_statistics.txt, _players.txt, _value.txt")
+
+		playerName = [x[1] for x in targets if x[0] == "_players.txt"]
+		player = searchPlayer(playerName[0])
+		stat = [x[1] for x in targets if x[0] == "_statistics.txt"]
+		print(stat[0])
+		print(statsToNumber(stat[0]))
+		print(player[statsToNumber(stat[0])])
+
+		couple = ("_statistics.txt", stat[0])
+		informations.append(couple)
+		couple = ("_players.txt", playerName[0])
+		informations.append(couple)
+		couple = ("_value.txt", player[statsToNumber(stat[0])])
+		informations.append(couple)
+		return informations
+
+	if i == 6 : #ok
+		print("_statistics.txt, _bestWorse.txt, _value.txt")
+		stat = [x[1] for x in targets if x[0] == "_statistics.txt"]
+		bestWorse = [x[1] for x in targets if x[0] == "_bestWorse.txt"]
+		filepointer = open("./../res/data/playerStatistics.csv","r")
+		temp = []
+		kv = (0,"")
+		i = 0
+		for line in filepointer:
+
+			line_splited = line.split(", ")
+			line_splited[-1] = line_splited[-1].strip()
+
+			kv = (line_splited[statsToNumber(stat[0])],line_splited[PLAYER_NAME])
+			temp.append(kv)
+			i = i + 1
+		temp.pop(0)
+		temp.sort(key=lambda tup: tup[0])
+		if bestWorse[0] == "best":
+			kv = temp[len(temp)-1]
+		else:
+			kv = temp[0]
+		playerName = kv[1]
+		print(playerName)
+		print(kv[0])
+		player = searchPlayer(playerName)
+		playerName = player[1]
+		# print(player)
+		#print(temp)
+
+		couple = ("_statistics.txt", stat[0])
+		informations.append(couple)
+		couple = ("_bestWorse.txt", bestWorse[0])
+		informations.append(couple)
+		couple = ("_value.txt", kv[0])
+		informations.append(couple)
+		couple = ("_players.txt", playerName)
+		informations.append(couple)
+
+		return informations
+
+	if i == 7 : #ok
+		print("_statistics.txt, _mostLess.txt, _value.txt")
+		stat = [x[1] for x in targets if x[0] == "_statistics.txt"]
+		mostLess = [x[1] for x in targets if x[0] == "_mostLess.txt"]
+		filepointer = open("./../res/data/playerStatistics.csv","r")
+		temp = []
+		kv = (0,"")
+		i = 0
+		for line in filepointer:
+			#temp.append((line[statsToNumber(stat[0])]),i)
+			# if i == 1:
+			# 	continue
+			line_splited = line.split(", ")
+			line_splited[-1] = line_splited[-1].strip()
+			kv = (line_splited[statsToNumber(stat[0])],line_splited[PLAYER_NAME])
+			temp.append(kv)
+			i = i + 1
+		temp.pop(0)
+		temp.sort(key=lambda tup: tup[0])
+		if mostLess[0] == "most":
+			kv = temp[len(temp)-1]
+		else:
+			kv = temp[0]
+		playerName = kv[1]
+		print(playerName)
+		print(kv[0])
+		player = searchPlayer(playerName)
+		playerName = player[1]
+		# print(player)
+		#print(temp)
+
+		couple = ("_statistics.txt", stat[0])
+		informations.append(couple)
+		couple = ("_mostLess.txt", mostLess[0])
+		informations.append(couple)
+		couple = ("_value.txt", kv[0])
+		informations.append(couple)
+		couple = ("_players.txt", playerName)
+		informations.append(couple)
+
+		return informations
+
+	if i > 7:
+		print("Sorry, I did not understand your question.\nCan you rephrase it ?")
+
 	return i
 
 def statsToNumber(str):
@@ -303,7 +492,7 @@ def statsToNumber(str):
 
 # faire une fonction qui permet de retrouver la phrase réponse.
 # Pour cela je parcours la liste des tuples et je vérifie que tous les elemnts du premier tuple dans la phrase.
-# je fais sa pour tout le fichier 
+# je fais sa pour tout le fichier
 # cela permet de recuperer toutes les phrases que je peux renvoyer au client
 # je choisis une parmis eux cela aide a faire du random
 
@@ -318,7 +507,7 @@ def findAnswer(fileName, lPairs):
 			if lPairs[i][0] not in lword:
 				newAnswer = False
 				break
-		if newAnswer:
+		if newAnswer :
 			returnValue.append(line)
 	filepointer.close()
 	return returnValue
@@ -326,23 +515,33 @@ def findAnswer(fileName, lPairs):
 
 def buildAnswer(lPairs):
 	lAnswer = findAnswer("./../res/EN/ans/answers.txt", lPairs)
+	# if lAnswer == [] :
+	# 	return ""
 	answerSelected = random.choice(lAnswer)
 	for i in range(0,len(lPairs)):
-		answerSelected = answerSelected.replace(lPairs[i][0],lPairs[i][1])
+		answerSelected = answerSelected.replace(lPairs[i][0],lPairs[i][1],1)
 	return answerSelected
 
 
+
 def nba_assistant():
-	# print("Welcome ! My name is NBA Assistant !")
-	# print("I'm here to give you informations and statistics about the NBA !")
-	# print("What would you like to know ?")
-	# while 1:
-	# 	inputs = getInputs()
-	# 	tokens = tokenization(inputs)
-	# 	normalizedTokens = normalize(tokens)
-	# 	targets = findTargets(normalizedTokens)
-	# 	statistics = getStats(targets)
-	# 	ans = answer(statistics)
+	print("Welcome ! My name is NBA Assistant !")
+	print("I'm here to give you informations and statistics about the NBA !")
+	print("What would you like to know ?")
+	while 1:
+		inputs = getInputs()
+		targets = findTargets(inputs, "./../res/EN/voc/accepted_sentences.txt")		
+		normalizedTokens = findCorrespondance(targets)
+		print(normalizedTokens)
+		preIns = findInformations(normalizedTokens)
+		print(preIns)
+		print(buildAnswer(preIns))
+
+		# tokens = tokenization(inputs)
+		# normalizedTokens = normalize(tokens)
+		# targets = findTargets(normalizedTokens)
+		# statistics = getStats(targets)
+		# ans = answer(statistics)
 	# findInformations(["_video.txt", "_players.txt"])
 	# saveData("./../res/data/playerStatistics.csv")
 	# loadGames("https://www.basketball-reference.com/leagues/NBA_2018_games.html", "./../res/data/gameInfo.csv")
@@ -356,17 +555,9 @@ def nba_assistant():
 	# print(searchPlayer("James Harden "))
 	# print(findCorrespondance(findTargets("I want to know Who is the best player in defensive rebound ?","./../res/EN/voc/accepted_sentences.txt")))
 	# print(findAnswer("./../res/EN/ans/answers.txt",[("_player","TOTO BOBO"),("_statistics","drb"), ("+value","32")]))
-	print(buildAnswer([("_player","TOTO BOBO"),("_statistics","drb"), ("+value","32")]))
+	# print(buildAnswer([("_player","TOTO BOBO"),("_statistics","drb"), ("+value","32")]))
 	# __want.txt Who is the _bw.txt player in _statistic.txt ?
 	# print(statsToNumber("spg"))
 
 if __name__=="__main__":
 	nba_assistant()
-
-
-
-
-
-
-
-
