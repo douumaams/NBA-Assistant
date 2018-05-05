@@ -55,7 +55,7 @@ def sendRequest(url):
 
 
 def searchPlayer(name):
-	filepointer = open("./ici.csv","r")
+	filepointer = open("./../res/data/playerStatistics.csv","r")
 	temp = []
 	for line in filepointer.readlines():
 		line = line.strip("\n")
@@ -159,13 +159,16 @@ def findTargets(sentence, fileName):
 			if ((i + ecart) >= len(lwordOUT) or (i + index) >= len(lwordIN)):
 				break
 			if lwordOUT[i+ecart].startswith('_'):
+				# print(lwordOUT[i+ecart])
 				l = loadPlayersFromFile("./../res/EN/voc/"+lwordOUT[i+ecart])
 				for j in range(0, len(l)):
 					if(compareListe(l[j], lwordIN, i+index) == 1):
-						returnValue.append((lwordOUT[i+ecart], " ".join(l[j])))
-						if len(l[j]) > 1:
+						if(lwordOUT[i+ecart].startswith("__") != 1):
+							returnValue.append((lwordOUT[i+ecart], " ".join(l[j])))
+						if len(l[j]) >= 1:
 							index = index + len(l[j]) - 1
-							ecart = ecart
+							# ecart = ecart +
+							break
 			elif lwordIN[i+index] != lwordOUT[i+ecart]:
 				break
 			i = i + 1
@@ -220,10 +223,12 @@ def findCorrespondance(l):
 #
 def extractKey(targets):
 	extraction = []
-	for t in targets:
-		print(t)
-		(k,v) = t
-		extraction.append(k)
+	if targets is not None:
+
+		for t in targets:
+			print(t)
+			(k,v) = t
+			extraction.append(k)
 	return extraction
 
 def read_targets(fileName):
@@ -239,7 +244,40 @@ def read_targets(fileName):
 	file.close()
 	return expectedTargets
 
+def statsToNumber(str):
+    switcher = {
+        "gp": GP,
+        "mpg": MGP,
+        "fgm": FGM,
+    	"fga": FGA,
+    	"fg%": FG_PER,
+    	"3pm": THREE_PM,
+    	"3pa": THREE_PA,
+    	"3pt%": THREE_P_PER,
+    	"ftm": FTM,
+    	"fta": FTA,
+    	"ft%": FT_PER,
+    	"tov": TOV,
+    	"pf": PF,
+    	"orb": ORB,
+    	"drb": DRB,
+    	"rpg": RPG,
+    	"apg": APG,
+    	"spg": SPG,
+    	"bpg": BPG,
+    	"ppg": PPG,
+    }
+
+    return switcher.get(str, -1)
+
 def findInformations(targets):
+	informations = []
+
+	if not targets:
+		print("Sorry, I did not understand your question.\nCan you rephrase it ?")
+		return informations
+
+	targets = findCorrespondance(targets)
 	extraction = extractKey(targets)
 	#extraction = targets
 	expectedTargets = read_targets("./../res/data/targetList.txt")
@@ -256,26 +294,166 @@ def findInformations(targets):
 
 	print(i)
 
-	if i == 1 :
+	if i == 1 : #ok
 		print("_players.txt")
-		index = extraction.index("_players.txt")
+
 		playerName = [x[1] for x in targets if x[0] == "_players.txt"]
 		print(playerName)
-		# player = searchPlayer(playerName)
-		# print(player)
-	if i == 2 :
-		print("_players.txt, _video.txt")
-		index = extraction.index("_players.txt")
+		player = searchPlayer(playerName[0])
+		player.pop(0)
+
+		print(player)
+		couple = ("_players.txt", player[0])
+		informations.append(couple)
+		couple = ("_value.txt", player[1])
+		informations.append(couple)
+		couple = ("_value.txt", player[2])
+		informations.append(couple)
+		couple = ("_value.txt", player[3])
+		informations.append(couple)
+		return informations
+
+
+	if i == 2 : #ok
+		print("_players.txt, _link.txt")
+
 		playerName = [x[1] for x in targets if x[0] == "_players.txt"]
 		print(playerName)
 		splittedName = playerName[0].split(" ")
 		print(splittedName)
-		print("https://www.youtube.com/results?search_query=" + splittedName[0] + "+" + splittedName[1] + "highlights")
-	if i == 3 : print("_players.txt, _bestWorse.txt")
-	if i == 4 : print("_players.txt, _teamCity.txt")
-	if i == 5 : print("_statistics.txt, _players.txt")
-	if i == 6 : print("_statistics.txt, _bestWorse.txt")
-	if i == 7 : print("_statistics.txt, _mostLess.txt")
+		link = "https://www.youtube.com/results?search_query=" + splittedName[0] + "+" + splittedName[1] + "+" + "highlights"
+		print("https://www.youtube.com/results?search_query=" + splittedName[0] + "+" + splittedName[1] + "+" + "highlights")
+		couple = ("_link.txt", link)
+		informations.append(couple)
+		couple = ("_players.txt", playerName[0])
+		informations.append(couple)
+		return informations
+
+	# if i == 3 :
+	# 	print("_players.txt, _bestWorse.txt")
+	#
+	# 	playerName = [x[1] for x in targets if x[0] == "_players.txt"]
+	# 	player = searchPlayer(playerName[0])
+	# 	bestWorse = [x[1] for x in targets if x[0] == "_bestWorse.txt"]
+
+	if i == 4 : #ok
+		print("_players.txt, _teamCity.txt")
+
+		playerName = [x[1] for x in targets if x[0] == "_players.txt"]
+		player = searchPlayer(playerName[0])
+		print(player[TEAM])
+
+		couple = ("_players.txt", playerName[0])
+		informations.append(couple)
+		couple = ("_teamCity.txt", player[TEAM])
+		informations.append(couple)
+
+		return informations
+
+	if i == 5 : #ok
+		print("_statistics.txt, _players.txt, _value.txt")
+
+		playerName = [x[1] for x in targets if x[0] == "_players.txt"]
+		player = searchPlayer(playerName[0])
+		stat = [x[1] for x in targets if x[0] == "_statistics.txt"]
+		print(stat[0])
+		print(statsToNumber(stat[0]))
+		print(player[statsToNumber(stat[0])])
+
+		couple = ("_statistics.txt", stat[0])
+		informations.append(couple)
+		couple = ("_players.txt", playerName[0])
+		informations.append(couple)
+		couple = ("_value.txt", player[statsToNumber(stat[0])])
+		informations.append(couple)
+		return informations
+
+	if i == 6 : #ok
+		print("_statistics.txt, _bestWorse.txt, _value.txt")
+		stat = [x[1] for x in targets if x[0] == "_statistics.txt"]
+		bestWorse = [x[1] for x in targets if x[0] == "_bestWorse.txt"]
+		filepointer = open("./../res/data/playerStatistics.csv","r")
+		temp = []
+		kv = (0,"")
+		i = 0
+		for line in filepointer:
+
+			line_splited = line.split(", ")
+			line_splited[-1] = line_splited[-1].strip()
+
+			kv = (line_splited[statsToNumber(stat[0])],line_splited[PLAYER_NAME])
+			temp.append(kv)
+			i = i + 1
+		temp.pop(0)
+		temp.sort(key=lambda tup: tup[0])
+		if bestWorse[0] == "best":
+			kv = temp[len(temp)-1]
+		else:
+			kv = temp[0]
+		playerName = kv[1]
+		print(playerName)
+		print(kv[0])
+		player = searchPlayer(playerName)
+		playerName = player[1]
+		# print(player)
+		#print(temp)
+
+		couple = ("_statistics.txt", stat[0])
+		informations.append(couple)
+		couple = ("_bestWorse.txt", bestWorse[0])
+		informations.append(couple)
+		couple = ("_value.txt", kv[0])
+		informations.append(couple)
+		couple = ("_players.txt", playerName)
+		informations.append(couple)
+
+		return informations
+
+	if i == 7 : #ok
+		print("_statistics.txt, _mostLess.txt, _value.txt")
+		stat = [x[1] for x in targets if x[0] == "_statistics.txt"]
+		mostLess = [x[1] for x in targets if x[0] == "_mostLess.txt"]
+		filepointer = open("./../res/data/playerStatistics.csv","r")
+		temp = []
+		kv = (0,"")
+		i = 0
+		for line in filepointer:
+			#temp.append((line[statsToNumber(stat[0])]),i)
+			# if i == 1:
+			# 	continue
+			line_splited = line.split(", ")
+			line_splited[-1] = line_splited[-1].strip()
+			kv = (line_splited[statsToNumber(stat[0])],line_splited[PLAYER_NAME])
+			temp.append(kv)
+			i = i + 1
+		temp.pop(0)
+		temp.sort(key=lambda tup: tup[0])
+		if mostLess[0] == "most":
+			kv = temp[len(temp)-1]
+		else:
+			kv = temp[0]
+		playerName = kv[1]
+		print(playerName)
+		print(kv[0])
+		player = searchPlayer(playerName)
+		playerName = player[1]
+		# print(player)
+		#print(temp)
+
+		couple = ("_statistics.txt", stat[0])
+		informations.append(couple)
+		couple = ("_mostLess.txt", mostLess[0])
+		informations.append(couple)
+		couple = ("_value.txt", kv[0])
+		informations.append(couple)
+		couple = ("_players.txt", playerName)
+		informations.append(couple)
+
+		return informations
+
+	if i > 7:
+		print("Sorry, I did not understand your question.\nCan you rephrase it ?")
+
 	return i
 
 
@@ -284,15 +462,22 @@ def nba_assistant():
 	# print("I'm here to give you informations and statistics about the NBA !")
 	# print("What would you like to know ?")
 	# while 1:
-	# 	inputs = getInputs()
-	# 	tokens = tokenization(inputs)
-	# 	normalizedTokens = normalize(tokens)
-	# 	targets = findTargets(normalizedTokens)
-	# 	statistics = getStats(targets)
-	# 	ans = answer(statistics)
-	findInformations([("_statistics.txt", "rebound"), ("_players.txt", "James Harden")]
-)
+	# 	human = input("Me : ")
+	# 	targets = findTargets(human,"./../res/EN/voc/accepted_sentences.txt")
+	# 	print(targets)
+	# 	# findInformations([("_players.txt", "James Harden")])
+	# 	informations = findInformations(targets)
+	# 	print(informations)
 
+	#informations = findInformations([("_players.txt", "James Harden")])
+	#informations = findInformations([("_players.txt", "James Harden"), ("_video.txt", "video")])
+	#informations = findInformations([("_players.txt", "James Harden"), ("_bestWorse.txt", "best")])
+	#informations = findInformations([("_players.txt", "James Harden"), ("_teamCity.txt", "team")])
+	informations = findInformations([("_statistics.txt", "ppg"), ("_players.txt", "James Harden")])
+	#informations = findInformations([("_statistics.txt", "ppg"), ("_bestWorse.txt", "best")])
+	#informations = findInformations([("_statistics.txt", "ppg"), ("_mostLess.txt", "less")])
+
+	print(informations)
 if __name__=="__main__":
 	nba_assistant()
 
