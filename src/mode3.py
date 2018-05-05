@@ -151,6 +151,7 @@ def findTargets(sentence, fileName):
 	lwordOUT = []
 	filepointer = open(fileName, "r")
 	returnValue = []
+	count = 0
 	for line in filepointer.readlines():
 		line = line.strip("\n")
 		lwordOUT = re.split(" ", line)
@@ -175,8 +176,12 @@ def findTargets(sentence, fileName):
 			elif lwordIN[i+index] != lwordOUT[i+ecart]:
 				break
 			i = i + 1
+		if(i == m):
+			break
+		count = count + 1
+	print("count  = "+ str(count))
 	filepointer.close()
-	return returnValue
+	return count, returnValue
 
 def findCorrespondance(l):
 	for i in range(0,len(l)):
@@ -537,53 +542,68 @@ def statsToNumber(str):
 # je choisis une parmis eux cela aide a faire du random
 
 def findAnswer(fileName, lPairs):
+	if not lPairs:
+		return lPairs
 	filepointer = open(fileName, "r")
 	returnValue = []
 	for line in filepointer.readlines():
 		newAnswer = True
 		line = line.strip("\n")
 		lword = re.split(" ", line)
+
 		for i in range(0,len(lPairs)):
 			if lPairs[i][0] not in lword:
 				newAnswer = False
 				break
 		if newAnswer :
+			# print(newAnswer.count('.txt'))
 			returnValue.append(line)
 	filepointer.close()
 	return returnValue
 
 
-def buildAnswer(lPairs):
-	lAnswer = findAnswer("./../res/EN/ans/answers.txt", lPairs)
-	# if lAnswer == [] :
-	# 	return ""
-	answerSelected = random.choice(lAnswer)
-	for i in range(0,len(lPairs)):
-		answerSelected = answerSelected.replace(lPairs[i][0],lPairs[i][1],1)
+def buildAnswer(nline,lPairs):
+	if not lPairs:
+		return None
+	count = 0
+	filepointer = open("./../res/EN/ans/answers.txt", "r")
+	for line in filepointer.readlines():
+		if count == nline:
+			break
+		count = count + 1
+
+	filepointer.close()
+	answerSelected = ""+line
+	for i in range(0, len(lPairs)):
+		answerSelected = answerSelected.replace(lPairs[i][0],lPairs[i][1])
+
+	print("len(lPairs) = "+ str(len(lPairs)))
+	print(line)
 	return answerSelected
-
-
 
 def nba_assistant():
 	print("Welcome ! My name is NBA Assistant !")
 	print("I'm here to give you informations and statistics about the NBA !")
 	print("What would you like to know ?")
-	# while 1:
-	# 	inputs = getInputs()
-	# 	targets = findTargets(inputs, "./../res/EN/voc/accepted_sentences.txt")
-	# 	normalizedTokens = findCorrespondance(targets)
-	# 	print(normalizedTokens)
-	# 	preIns = findInformations(normalizedTokens)
-	# 	print(preIns)
-	# 	print(buildAnswer(preIns))
+	while 1:
+		inputs = getInputs()
+		nline, targets = findTargets(inputs, "./../res/EN/voc/accepted_sentences.txt")
+		normalizedTokens = findCorrespondance(targets)
+
+		preIns = findInformations(normalizedTokens)
+		print("apres--------------------------")
+		print(normalizedTokens)
+		print(preIns)
+
+		print(buildAnswer(nline,preIns))
 
 		# tokens = tokenization(inputs)
 		# normalizedTokens = normalize(tokens)
 		# targets = findTargets(normalizedTokens)
 		# statistics = getStats(targets)
 		# ans = answer(statistics)
-	info =findInformations([("_players.txt", "James Harden"),("_bestWorse.txt", "best")])
-	print(info)
+	# info =findInformations([("_players.txt", "James Harden"),("_bestWorse.txt", "best")])
+	# print(info)
 	# saveData("./../res/data/playerStatistics.csv")
 	# loadGames("https://www.basketball-reference.com/leagues/NBA_2018_games.html", "./../res/data/gameInfo.csv")
 	# loadTeams("./../res/data/teamList.txt","./../res/data/TeamInfo.csv")
