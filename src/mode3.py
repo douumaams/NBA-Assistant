@@ -62,6 +62,8 @@ def searchPlayer(name):
 		temp = re.split(", ", line)
 		if temp[PLAYER_NAME] == name:
 			break
+		else:
+			temp = []
 	filepointer.close()
 	return temp
 
@@ -159,13 +161,16 @@ def findTargets(sentence, fileName):
 			if ((i + ecart) >= len(lwordOUT) or (i + index) >= len(lwordIN)):
 				break
 			if lwordOUT[i+ecart].startswith('_'):
+				# print(lwordOUT[i+ecart])
 				l = loadPlayersFromFile("./../res/EN/voc/"+lwordOUT[i+ecart])
 				for j in range(0, len(l)):
 					if(compareListe(l[j], lwordIN, i+index) == 1):
-						returnValue.append((lwordOUT[i+ecart], " ".join(l[j])))
-						if len(l[j]) > 1:
+						if(lwordOUT[i+ecart].startswith("__") != 1):
+							returnValue.append((lwordOUT[i+ecart], " ".join(l[j])))
+						if len(l[j]) >= 1:
 							index = index + len(l[j]) - 1
-							ecart = ecart
+							# ecart = ecart + 
+							break
 			elif lwordIN[i+index] != lwordOUT[i+ecart]:
 				break
 			i = i + 1
@@ -177,13 +182,14 @@ def findCorrespondance(l):
 		filepointer = open("./../res/EN/cor/" + l[i][0].replace(".txt","Correspondance.txt"),"r")
 		for line in filepointer.readlines():
 			line = line.strip("\n")
+			print(line)
 			lline = re.split(", ", line)
 			if l[i][1] in lline:
 				print(lline[0])
 				l[i] = (l[i][0],lline[0])
 				break
 		filepointer.close()
-		return l
+	return l
 
 # def getInputs():
 # 	return input("Me : ")
@@ -264,6 +270,42 @@ def findInformations(targets):
 	if i == 7 : print("_statistics.txt, _mostLess.txt")
 	return i
 
+def statsToNumber(str):
+    switcher = {
+        "gp": GP,
+        "mpg": MGP,
+        "fgm": FGM,
+    	"fga": FGA,
+    	"fg%": FG_PER,
+    	"3pm": THREE_PM,
+    	"3pa": THREE_PA,
+    	"3pt%": THREE_P_PER,
+    	"ftm": FTM,
+    	"fta": FTA,
+    	"ft%": FT_PER,
+    	"tov": TOV,
+    	"pf": PF,
+    	"orb": ORB,
+    	"drb": DRB,
+    	"rpg": RPG,
+    	"apg": APG,
+    	"spg": SPG,
+    	"bpg": BPG,
+    	"ppg": PPG,
+    }
+
+    return switcher.get(str, -1)
+
+
+
+# TODO
+
+# faire une fonction qui permet de retrouver la phrase réponse.
+# Pour cela je parcours la liste des tuples et je vérifie que tous les elemnts du premier tuple dans la phrase.
+# je fais sa pour tout le fichier 
+# cela permet de recuperer toutes les phrases que je peux renvoyer au client
+# je choisis une parmis eux cela aide a faire du random
+
 
 def nba_assistant():
 	# print("Welcome ! My name is NBA Assistant !")
@@ -276,10 +318,20 @@ def nba_assistant():
 	# 	targets = findTargets(normalizedTokens)
 	# 	statistics = getStats(targets)
 	# 	ans = answer(statistics)
-	findInformations(["_video.txt", "_players.txt"])
+	# findInformations(["_video.txt", "_players.txt"])
 	# saveData("./../res/data/playerStatistics.csv")
 	# loadGames("https://www.basketball-reference.com/leagues/NBA_2018_games.html", "./../res/data/gameInfo.csv")
 	# loadTeams("./../res/data/teamList.txt","./../res/data/TeamInfo.csv")
+	# print("How many defensive rebound James Harden average ?")
+	# print(findCorrespondance(findTargets("How many defensive rebound James Harden average ?","./../res/EN/voc/accepted_sentences.txt")))
+	# print("In what category is Taurean Prince the best ?")
+	# print(findCorrespondance(findTargets("In what category is Taurean Prince the best ?","./../res/EN/voc/accepted_sentences.txt")))
+	# print("\n\nIn which team does Taurean Prince play ?")
+	# print(findCorrespondance(findTargets("In which team does Taurean Prince play ?","./../res/EN/voc/accepted_sentences.txt")))
+	# print(searchPlayer("James Harden "))
+	print(findCorrespondance(findTargets("I want to know Who is the best player in defensive rebound ?","./../res/EN/voc/accepted_sentences.txt")))
+	# __want.txt Who is the _bw.txt player in _statistic.txt ?
+	# print(statsToNumber("spg"))
 
 if __name__=="__main__":
 	nba_assistant()
@@ -289,10 +341,5 @@ if __name__=="__main__":
 
 
 
-
-# print("In what category is Taurean Prince the best ?")
-# print(findCorrespondance(findTargets("In what category is Taurean Prince the best ?","./../res/EN/accepted_sentences.txt")))
-# print("\n\nIn which team does Taurean Prince play ?")
-# print(findCorrespondance(findTargets("In which team does Taurean Prince play ?","./../res/EN/accepted_sentences.txt")))
 
 
