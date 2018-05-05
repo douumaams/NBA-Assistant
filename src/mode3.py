@@ -3,6 +3,7 @@ import re
 from lxml import html
 from bs4 import BeautifulSoup
 import re
+import random
 
 
 PLAYER_NAME = 1
@@ -306,6 +307,30 @@ def statsToNumber(str):
 # cela permet de recuperer toutes les phrases que je peux renvoyer au client
 # je choisis une parmis eux cela aide a faire du random
 
+def findAnswer(fileName, lPairs):
+	filepointer = open(fileName, "r")
+	returnValue = []
+	for line in filepointer.readlines():
+		newAnswer = True
+		line = line.strip("\n")
+		lword = re.split(" ", line)
+		for i in range(0,len(lPairs)):
+			if lPairs[i][0] not in lword:
+				newAnswer = False
+				break
+		if newAnswer:
+			returnValue.append(line)
+	filepointer.close()
+	return returnValue
+
+
+def buildAnswer(lPairs):
+	lAnswer = findAnswer("./../res/EN/ans/answers.txt", lPairs)
+	answerSelected = random.choice(lAnswer)
+	for i in range(0,len(lPairs)):
+		answerSelected = answerSelected.replace(lPairs[i][0],lPairs[i][1])
+	return answerSelected
+
 
 def nba_assistant():
 	# print("Welcome ! My name is NBA Assistant !")
@@ -329,7 +354,9 @@ def nba_assistant():
 	# print("\n\nIn which team does Taurean Prince play ?")
 	# print(findCorrespondance(findTargets("In which team does Taurean Prince play ?","./../res/EN/voc/accepted_sentences.txt")))
 	# print(searchPlayer("James Harden "))
-	print(findCorrespondance(findTargets("I want to know Who is the best player in defensive rebound ?","./../res/EN/voc/accepted_sentences.txt")))
+	# print(findCorrespondance(findTargets("I want to know Who is the best player in defensive rebound ?","./../res/EN/voc/accepted_sentences.txt")))
+	# print(findAnswer("./../res/EN/ans/answers.txt",[("_player","TOTO BOBO"),("_statistics","drb"), ("+value","32")]))
+	print(buildAnswer([("_player","TOTO BOBO"),("_statistics","drb"), ("+value","32")]))
 	# __want.txt Who is the _bw.txt player in _statistic.txt ?
 	# print(statsToNumber("spg"))
 
