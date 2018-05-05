@@ -4,7 +4,7 @@ __want.txt How many _statistics.txt _player.txt average ?
 __want.txt In what category is _players.txt the _bw.txt ?
 __want.txt In which _teamCity.txt does _players.txt play ?
 __want.txt What is the _statistics.txt of _player.txt ?
-__want.txt Who is the _bestWorse.txt player in _statistic ?
+__want.txt Who is the _bw.txt player in _statistic ?
 __want.txt Who scores the _mostLess.txt _statistic ?
 __want.txt Which player _statistics.txt the _mostLess.txt ?
 __want.txt What is the _mostLess.txt _statistics.txt ?
