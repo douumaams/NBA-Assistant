@@ -7,3 +7,4 @@ The _bestWorse.txt player in _statistics.txt is _players.txt, he average _value.
 _players.txt average the _mostLess.txt _statistic.txt with _value.txt
 _players.txt _statistics.txt the _mostLess.txt with _value.txt
 The _mostLess.txt _statistics.txt is _value.txt by _players.txt
+ 
