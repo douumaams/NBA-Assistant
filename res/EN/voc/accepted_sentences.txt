@@ -1,14 +1,10 @@
-How many _statistics.txt _players.txt average ?
-what is the _statistics.txt of _player.txt ?
-In what category is _players.txt the _bestWorse.txt  ?
-In which team does _players.txt play ?
 Can I see the highlight _video.txt of _players.txt ?
 Can you tell me _something.txt about _players.txt ?
-__want.txt How many _statistics.txt _player.txt average ?
-__want.txt In what category is _players.txt the _bestWorse.txt  ?
-__want.txt In which _teamCity.txt does _players.txt play ?
-__want.txt What is the _statistics.txt of _players.txt ?
-__want.txt Who is the _bestWorse.txt  player in _statistics.txt ?
-__want.txt Who scores the _mostLess.txt _statistics.txt ?
-__want.txt Which player _statistics.txt the _mostLess.txt ?
-__want.txt What is the _mostLess.txt _statistics.txt ?
+How many _statistics.txt _players.txt average ?
+In what category is _players.txt the _bestWorse.txt  ?
+In which team does _players.txt play ?
+What is the _statistics.txt of _players.txt ?
+Who is the _bestWorse.txt  player in _statistics.txt ?
+Who has the _mostLess.txt _statistics.txt ?
+Which player _statistics.txt the _mostLess.txt ?
+What is the _mostLess.txt _statistics.txt ?

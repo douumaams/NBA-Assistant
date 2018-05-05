@@ -311,9 +311,15 @@ def findInformations(targets):
 		informations.append(couple)
 		couple = ("_value.txt", player[1])
 		informations.append(couple)
+		couple = ("_statistics.txt", stat[0])
+		informations.append(couple)
 		couple = ("_value.txt", player[2])
 		informations.append(couple)
+		couple = ("_statistics.txt", stat[0])
+		informations.append(couple)
 		couple = ("_value.txt", player[3])
+		informations.append(couple)
+		couple = ("_statistics.txt", stat[0])
 		informations.append(couple)
 		return informations
 
@@ -335,10 +341,46 @@ def findInformations(targets):
 
 	if i == 3 :
 		print("_players.txt, _bestWorse.txt")
-	
+
 		playerName = [x[1] for x in targets if x[0] == "_players.txt"]
 		player = searchPlayer(playerName[0])
+		player.pop(0)
+		player.pop(0)
+		player.pop(0)
 		bestWorse = [x[1] for x in targets if x[0] == "_bestWorse.txt"]
+		couple = ("_players.txt", playerName[0])
+		informations.append(couple)
+
+		filepointer = open("./../res/data/playerStatistics.csv","r")
+		line = filepointer.readline()
+		line = line.split(", ")
+		line.pop(0)
+		line.pop(0)
+		line.pop(0)
+		line[len(line)-1] = line[len(line)-1].strip()
+		#print(line)
+
+		kv = ("","")
+		temp = []
+		i = 0
+		for p in player:
+			kv = (player[i],line[i])
+			temp.append(kv)
+			i = i + 1
+
+		print(kv)
+		couple = ("_statistics.txt", "orb")
+		informations.append(couple)
+		couple = ("_bestWorse.txt", bestWorse[0])
+		informations.append(couple)
+		if bestWorse[0] == "best":
+			couple = ("_value.txt", player[len(player)-1])
+			informations.append(couple)
+		else:
+			couple = ("_value.txt", player[0])
+			informations.append(couple)
+
+		return informations
 
 	if i == 4 : #ok
 		print("_players.txt, _teamCity.txt")
@@ -458,8 +500,6 @@ def findInformations(targets):
 	if i > 7:
 		print("Sorry, I did not understand your question.\nCan you rephrase it ?")
 
-	return i
-
 def statsToNumber(str):
     switcher = {
         "gp": GP,
@@ -528,28 +568,29 @@ def nba_assistant():
 	print("Welcome ! My name is NBA Assistant !")
 	print("I'm here to give you informations and statistics about the NBA !")
 	print("What would you like to know ?")
-	while 1:
-		inputs = getInputs()
-		targets = findTargets(inputs, "./../res/EN/voc/accepted_sentences.txt")		
-		normalizedTokens = findCorrespondance(targets)
-		print(normalizedTokens)
-		preIns = findInformations(normalizedTokens)
-		print(preIns)
-		print(buildAnswer(preIns))
+	# while 1:
+	# 	inputs = getInputs()
+	# 	targets = findTargets(inputs, "./../res/EN/voc/accepted_sentences.txt")
+	# 	normalizedTokens = findCorrespondance(targets)
+	# 	print(normalizedTokens)
+	# 	preIns = findInformations(normalizedTokens)
+	# 	print(preIns)
+	# 	print(buildAnswer(preIns))
 
 		# tokens = tokenization(inputs)
 		# normalizedTokens = normalize(tokens)
 		# targets = findTargets(normalizedTokens)
 		# statistics = getStats(targets)
 		# ans = answer(statistics)
-	# findInformations(["_video.txt", "_players.txt"])
+	info =findInformations([("_players.txt", "James Harden"),("_bestWorse.txt", "best")])
+	print(info)
 	# saveData("./../res/data/playerStatistics.csv")
 	# loadGames("https://www.basketball-reference.com/leagues/NBA_2018_games.html", "./../res/data/gameInfo.csv")
 	# loadTeams("./../res/data/teamList.txt","./../res/data/TeamInfo.csv")
 	# print("How many defensive rebound James Harden average ?")
 	# print(findCorrespondance(findTargets("How many defensive rebound James Harden average ?","./../res/EN/voc/accepted_sentences.txt")))
 	# print("In what category is Taurean Prince the best ?")
-	# print(findCorrespondance(findTargets("In what category is Taurean Prince the best ?","./../res/EN/voc/accepted_sentences.txt")))
+	#print(findCorrespondance(findTargets("In what category is Taurean Prince the best ?","./../res/EN/voc/accepted_sentences.txt")))
 	# print("\n\nIn which team does Taurean Prince play ?")
 	# print(findCorrespondance(findTargets("In which team does Taurean Prince play ?","./../res/EN/voc/accepted_sentences.txt")))
 	# print(searchPlayer("James Harden "))

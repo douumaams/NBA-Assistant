@@ -1,9 +1,10 @@
 Here is the link of YouTube videos of _players.txt : _link.txt
-Here are some informations about _players.txt.\n He average _value.txt _statistics.txt, _value.txt _statistics.txt, ...
+Here are some informations about _players.txt.\n He average _value.txt _statistics.txt, _value.txt _statistics.txt, _value.txt _statistics.txt
 _players.txt average _value.txt _statistics.txt
-_players.txt is the best in _statistics.txt
-_players.txt play in _teamCity.txt.
-The _bestWorse.txt player in _statistics.txt is _players.txt, he average _value.txt _statistics.txt
-_players.txt average the _mostLess.txt _statistic.txt with _value.txt
+_players.txt is the _bestWorse.txt in _statistics.txt
+_players.txt plays in _teamCity.txt.
+_players.txt average _value.txt _statistics.txt
+The _bestWorse.txt player in _statistics.txt is _players.txt, he averages _value.txt _statistics.txt
+_players.txt has the _mostLess.txt _statistic.txt with _value.txt
 _players.txt _statistics.txt the _mostLess.txt with _value.txt
 The _mostLess.txt _statistics.txt is _value.txt by _players.txt
