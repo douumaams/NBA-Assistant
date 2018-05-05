@@ -1,4 +1,4 @@
-_players.txt
+_players.txt, _something.txt
 _players.txt, _video.txt
 _players.txt, _bestWorse.txt
 _players.txt, _teamCity.txt
