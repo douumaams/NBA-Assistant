@@ -3,6 +3,7 @@ import re
 from lxml import html
 from bs4 import BeautifulSoup
 import re
+import random
 
 
 PLAYER_NAME = 1
@@ -62,6 +63,8 @@ def searchPlayer(name):
 		temp = re.split(", ", line)
 		if temp[PLAYER_NAME] == name:
 			break
+		else:
+			temp = []
 	filepointer.close()
 	return temp
 
@@ -180,13 +183,14 @@ def findCorrespondance(l):
 		filepointer = open("./../res/EN/cor/" + l[i][0].replace(".txt","Correspondance.txt"),"r")
 		for line in filepointer.readlines():
 			line = line.strip("\n")
+			print(line)
 			lline = re.split(", ", line)
 			if l[i][1] in lline:
 				print(lline[0])
 				l[i] = (l[i][0],lline[0])
 				break
 		filepointer.close()
-		return l
+	return l
 
 # def getInputs():
 # 	return input("Me : ")
@@ -456,38 +460,94 @@ def findInformations(targets):
 
 	return i
 
+def statsToNumber(str):
+    switcher = {
+        "gp": GP,
+        "mpg": MGP,
+        "fgm": FGM,
+    	"fga": FGA,
+    	"fg%": FG_PER,
+    	"3pm": THREE_PM,
+    	"3pa": THREE_PA,
+    	"3pt%": THREE_P_PER,
+    	"ftm": FTM,
+    	"fta": FTA,
+    	"ft%": FT_PER,
+    	"tov": TOV,
+    	"pf": PF,
+    	"orb": ORB,
+    	"drb": DRB,
+    	"rpg": RPG,
+    	"apg": APG,
+    	"spg": SPG,
+    	"bpg": BPG,
+    	"ppg": PPG,
+    }
+
+    return switcher.get(str, -1)
+
+
+
+# TODO
+
+# faire une fonction qui permet de retrouver la phrase réponse.
+# Pour cela je parcours la liste des tuples et je vérifie que tous les elemnts du premier tuple dans la phrase.
+# je fais sa pour tout le fichier
+# cela permet de recuperer toutes les phrases que je peux renvoyer au client
+# je choisis une parmis eux cela aide a faire du random
+
+def findAnswer(fileName, lPairs):
+	filepointer = open(fileName, "r")
+	returnValue = []
+	for line in filepointer.readlines():
+		newAnswer = True
+		line = line.strip("\n")
+		lword = re.split(" ", line)
+		for i in range(0,len(lPairs)):
+			if lPairs[i][0] not in lword:
+				newAnswer = False
+				break
+		if newAnswer:
+			returnValue.append(line)
+	filepointer.close()
+	return returnValue
+
+
+def buildAnswer(lPairs):
+	lAnswer = findAnswer("./../res/EN/ans/answers.txt", lPairs)
+	answerSelected = random.choice(lAnswer)
+	for i in range(0,len(lPairs)):
+		answerSelected = answerSelected.replace(lPairs[i][0],lPairs[i][1])
+	return answerSelected
+
 
 def nba_assistant():
 	# print("Welcome ! My name is NBA Assistant !")
 	# print("I'm here to give you informations and statistics about the NBA !")
 	# print("What would you like to know ?")
 	# while 1:
-	# 	human = input("Me : ")
-	# 	targets = findTargets(human,"./../res/EN/voc/accepted_sentences.txt")
-	# 	print(targets)
-	# 	# findInformations([("_players.txt", "James Harden")])
-	# 	informations = findInformations(targets)
-	# 	print(informations)
+	# 	inputs = getInputs()
+	# 	tokens = tokenization(inputs)
+	# 	normalizedTokens = normalize(tokens)
+	# 	targets = findTargets(normalizedTokens)
+	# 	statistics = getStats(targets)
+	# 	ans = answer(statistics)
+	# findInformations(["_video.txt", "_players.txt"])
+	# saveData("./../res/data/playerStatistics.csv")
+	# loadGames("https://www.basketball-reference.com/leagues/NBA_2018_games.html", "./../res/data/gameInfo.csv")
+	# loadTeams("./../res/data/teamList.txt","./../res/data/TeamInfo.csv")
+	# print("How many defensive rebound James Harden average ?")
+	# print(findCorrespondance(findTargets("How many defensive rebound James Harden average ?","./../res/EN/voc/accepted_sentences.txt")))
+	# print("In what category is Taurean Prince the best ?")
+	# print(findCorrespondance(findTargets("In what category is Taurean Prince the best ?","./../res/EN/voc/accepted_sentences.txt")))
+	# print("\n\nIn which team does Taurean Prince play ?")
+	# print(findCorrespondance(findTargets("In which team does Taurean Prince play ?","./../res/EN/voc/accepted_sentences.txt")))
+	# print(searchPlayer("James Harden "))
+	# print(findCorrespondance(findTargets("I want to know Who is the best player in defensive rebound ?","./../res/EN/voc/accepted_sentences.txt")))
+	# print(findAnswer("./../res/EN/ans/answers.txt",[("_player","TOTO BOBO"),("_statistics","drb"), ("+value","32")]))
+	print(buildAnswer([("_player","TOTO BOBO"),("_statistics","drb"), ("+value","32")]))
+	# __want.txt Who is the _bw.txt player in _statistic.txt ?
+	# print(statsToNumber("spg"))
 
-	#informations = findInformations([("_players.txt", "James Harden")])
-	#informations = findInformations([("_players.txt", "James Harden"), ("_video.txt", "video")])
-	#informations = findInformations([("_players.txt", "James Harden"), ("_bestWorse.txt", "best")])
-	#informations = findInformations([("_players.txt", "James Harden"), ("_teamCity.txt", "team")])
-	informations = findInformations([("_statistics.txt", "ppg"), ("_players.txt", "James Harden")])
-	#informations = findInformations([("_statistics.txt", "ppg"), ("_bestWorse.txt", "best")])
-	#informations = findInformations([("_statistics.txt", "ppg"), ("_mostLess.txt", "less")])
-
-	print(informations)
 if __name__=="__main__":
 	nba_assistant()
-
-
-
-
-
-
-
-# print("In what category is Taurean Prince the best ?")
-# print(findCorrespondance(findTargets("In what category is Taurean Prince the best ?","./../res/EN/accepted_sentences.txt")))
-# print("\n\nIn which team does Taurean Prince play ?")
-# print(findCorrespondance(findTargets("In which team does Taurean Prince play ?","./../res/EN/accepted_sentences.txt")))
